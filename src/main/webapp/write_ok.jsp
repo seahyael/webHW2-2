@@ -1,48 +1,54 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.sql.*" %>
 <%@ page import="org.example.cruddb.BoardDAO, org.example.cruddb.BoardVO" %>
 <%@ include file="./inc/top.jsp" %>
-
 
 <%
     String bname = request.getParameter("bname");
     String bauthor = request.getParameter("bauthor");
     String bdate = request.getParameter("bdate");
 
-    // DB 연결
-    String url = "jdbc:mariadb://localhost:3306/your_database";
-    String username = "your_username";
-    String password = "your_password";
+    BoardDAO boardDAO = new BoardDAO();
+    BoardVO boardVO = new BoardVO();
+    boardVO.setName(bname);
+    boardVO.setAuthor(bauthor);
 
-    Connection conn = null;
-    PreparedStatement pstmt = null;
+    String[] dateParts = bdate.split("-");
+    int dateAsInt = Integer.parseInt(dateParts[0] + dateParts[1] + dateParts[2]);
+    boardVO.setDate(dateAsInt);
 
-    try {
-        Class.forName("org.mariadb.jdbc.Driver");
-        conn = DriverManager.getConnection(url, username, password);
-        String insertSQL = "INSERT INTO BOARD (name, author, date) VALUES (?, ?, ?)";
-
-        pstmt = conn.prepareStatement(insertSQL);
-        pstmt.setString(1, bname);
-        pstmt.setString(2, bauthor);
-        pstmt.setString(3, bdate);
-
-        int result = pstmt.executeUpdate();
-
-        if (result > 0) {
-            System.out.println("<h3>게시물이 추가되었습니다.</h3>");
-        } else {
-           System.out.println("<h3>게시물 추가 실패</h3>");
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        try {
-            if (pstmt != null) pstmt.close();
-            if (conn != null) conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    int newSeq = boardDAO.insertBoard(boardVO);
+    BoardVO insertedBoard = (newSeq > 0) ? boardDAO.getBoard(newSeq) : null;
 %>
+
+<div class="container">
+    <h3 class="text-center">추가 결과</h3>
+    <%
+        if (insertedBoard != null) {
+    %>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>제목</th>
+            <th>작가</th>
+            <th>출판년도</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><%= insertedBoard.getName() %></td>
+            <td><%= insertedBoard.getAuthor() %></td>
+            <td><%= insertedBoard.getDate() %></td>
+        </tr>
+        </tbody>
+    </table>
+    <%
+    } else {
+    %>
+    <p>추가된 게시물을 가져오는 데 실패했습니다.</p>
+    <%
+        }
+    %>
+    <a href="list.jsp" class="btn btn-primary">목록으로 돌아가기</a>
+</div>
+
 <%@ include file="./inc/bottom.jsp" %>

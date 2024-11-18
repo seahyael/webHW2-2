@@ -44,4 +44,12 @@
         border-radius: 5px;
     }
 </style>
+
+<div class="jumbotron">
+    <div class="container text-center">
+        <h1>도서 목록</h1>
+        <p><span class="blue">View,</span><span class="green">Edit, </span><span class="pink">Add, </span>Delete</p>
+    </div>
+</div>
+
 </body>

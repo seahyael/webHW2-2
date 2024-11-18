@@ -1,5 +1,7 @@
 <%@ page import="java.sql.*, java.io.*" %>
 <%@ include file="./inc/top.jsp" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <%
     // seq 값 받아오기
     String seq = request.getParameter("seq");
@@ -14,7 +16,7 @@
         Class.forName("org.mariadb.jdbc.Driver");
 
         // DB 연결
-        conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/your_database", "your_username", "your_password");
+        conn = DriverManager.getConnection("jdbc:mariadb://walab.handong.edu:3306/OSS24_22300045", "OSS24_22300045", "ohL7beic");
 
         // SQL 쿼리 작성
         String query = "SELECT * FROM BOARD WHERE seq = " + seq;

@@ -1,4 +1,3 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,94 +8,81 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
-        .navbar {
-            margin-bottom: 50px;
-            border-radius: 0;
-        }
-
         .jumbotron {
             margin-bottom: 0;
         }
 
-        footer {
-            background-color: #f2f2f2;
-            padding: 25px;
+        .btn-pink {
+            background-color: #ff69b4;
+            color: white;
+            border-color: #ff69b4;
         }
 
-        .pink {
-            background-color: #ebccd1;
-            text-decoration: underline;
-            border-radius: 5px;
-        }
-
-        .text {
-            color: black;
-        }
-
-        .margin0 {
-            margin-top: -50px;
-            padding-top: 30;
+        .btn-pink:hover {
+            background-color: #ff85c5;
+            border-color: #ff85c5;
         }
     </style>
 
     <script>
-        function check(event) {
-            let f = document.form;
+        function validateForm(event) {
+            let form = document.form;
 
-            let fname = f.bname;
-            if (fname.value == '') {
-                alert('책 이름을 입력하세요');
+            if (form.bname.value.trim() === '') {
+                alert('책 이름을 입력하세요.');
                 event.preventDefault();
                 return false;
             }
 
-            let author = f.bauthor;
-            if (author.value == '') {
-                alert('작가명을 입력하세요');
+            if (form.bauthor.value.trim() === '') {
+                alert('작가명을 입력하세요.');
                 event.preventDefault();
                 return false;
             }
 
-            let bdate = f.bdate;
-            if (bdate.value == '') {
-                alert('출판일을 입력하세요');
+            if (form.bdate.value.trim() === '') {
+                alert('출판일을 입력하세요.');
                 event.preventDefault();
                 return false;
             }
 
-            alert("게시물이 추가됩니다");
+            alert("게시물이 추가됩니다.");
             return true;
         }
     </script>
 </head>
 
 <body>
-
-<div class="jumbotron">
-    <div class="container text-center">
-        <h1>도서관리 시스템</h1>
-        <p>View, Edit, <h class="pink">Add,</h> Delete</p>
-    </div>
+<div class="jumbotron text-center">
+    <h1>도서관리 시스템</h1>
+    <p>Add a new book to the library</p>
 </div>
 
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Add</a>
+<div class="container">
+    <h3 class="text-center">새로운 도서 추가</h3>
+    <form name="form" class="form-horizontal" action="write_ok.jsp" method="post" onsubmit="return validateForm(event)">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="bname">도서명:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="bname" name="bname" placeholder="Enter book name" required />
+            </div>
         </div>
-    </div>
-</nav>
-
-<footer class="pink margin0">
-    <h1 class="form-inline text-center">Add new book<br></h1>
-    <form name="form" class="form-inline" action="write_ok.jsp" method="post" onsubmit="return check(event)">
-        도서명:<br><input type="text" class="form-control" placeholder="Book name" name="bname"><br>
-        작가:<br><input type="text" class="form-control" placeholder="Author" name="bauthor"><br>
-        출판일:<br><input type="date" class="form-control" name="bdate"><br>
-        <input type="submit" class="btn btn-danger" value="추가">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="bauthor">작가:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="bauthor" name="bauthor" placeholder="Enter author name" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="bdate">출판일:</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" id="bdate" name="bdate" required />
+            </div>
+        </div>
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-pink" value="추가" />
+        </div>
     </form>
-</footer>
-
+</div>
 </body>
-
 </html>

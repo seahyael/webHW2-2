@@ -10,7 +10,11 @@ public class JDBCUtil {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
             if(conn == null){
-                conn = DriverManager.getConnection("jdbc:mariadb://walab.handong.edu:3306/OSS24_22300045?user=OSS24_22300045&password=ohL7beic");
+
+                String url = "jdbc:mariadb://walab.handong.edu:3306/OSS24_22300045";
+                String username = "OSS24_22300045";
+                String password = "ohL7beic";
+                conn = DriverManager.getConnection(url, username, password);
             }
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -28,10 +32,4 @@ public class JDBCUtil {
        }
    }
 
-   public static void main(String a[]){
-    Connection conn = JDBCUtil.getConnection();
-    if(conn != null){
-        System.out.println("DB연결 완료");
-    }
-   }
 }
